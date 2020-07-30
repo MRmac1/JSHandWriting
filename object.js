@@ -1,12 +1,19 @@
-// create & shallowClone & deepClone
+/**
+ * file: 和对象本身相关的操作
+ *
+ * Object.create -> create
+ * Object.assign -> shallowClone & assgin
+ * instanceof -> instanceOf
+ * 对象的深层克隆 deepClone
+ * */
 
-const source = {
-  a: 1,
-  b: [ 'e', 'f', 'g' ],
-  c: { h: { i: 2 } }
+ const create = function(o) {
+  const F = function() {}
+  F.prototype = o;
+  return new F;
 }
 
-// shallowClone 浅克隆
+// 浅克隆 shallowClone
 const shallowClone = function(source) {
   const target = {};
   for (const key in source) {
@@ -15,9 +22,17 @@ const shallowClone = function(source) {
   return target;
 }
 
-const target = shallowClone(source);
-
-console.log('target', target);
+// 浅克隆
+const assgin = function(target, ...source) {
+  for (let index = 0; index < source.length; index++) {
+    const element = source[index];
+    for (const key in element) {
+      if (element.hasOwnProperty(key)) {
+        target[key] = object[key];
+      }
+    }
+  }
+}
 
 // deepClone 深复制
 const deepClone = function(parent) {
@@ -96,11 +111,8 @@ const getRegExp = re => {
   return flags;
 };
 
-console.log('deep target', deepClone(target));
-
-
-// instanceOf 实现
-const instance_of = function(L, R) {
+// instanceof 实现
+const instanceOf = function(L, R) {
   let O = R.prototype;
   L = L.__proto__;
   while(true) {
@@ -112,48 +124,10 @@ const instance_of = function(L, R) {
   }
 }
 
-console.log('instance_of', instance_of({}, Function))
-
-
-// new 实现  objectFactory(Person, 'cxk', 18)
-
-const Person = function(name, age) {
-  this.name = name;
-  this.age = age
+module.exports = {
+  assgin,
+  shallowClone,
+  create,
+  deepClone,
+  instanceOf
 }
-
-function objectFactory() {
-  const obj = {};
-  const Constructor = [].shift.call(arguments);
-  obj.__proto__ = Constructor.prototype;
-  const ret = Constructor.apply(obj, arguments);
-  return typeof ret === 'object' ? ret : obj;
-}
-
-const cxk = objectFactory(Person, 'cxk', 18);
-
-console.log('cxk', cxk);
-
-
-
-
-
-const create = function(o) {
-  const F = function() {}
-  F.prototype = o;
-  return new F;
-}
-
-// 浅克隆
-const assgin = function(target, ...source) {
-  for (let index = 0; index < source.length; index++) {
-    const element = source[index];
-    for (const key in element) {
-      if (element.hasOwnProperty(key)) {
-        target[key] = object[key];
-      }
-    }
-  }
-}
-
-// 深克隆

@@ -25,7 +25,7 @@ const S1 = function(name) {
   F.call(this, name)
 }
 
-S1.prototype.__proto__ = F.prototype
+// S1.prototype.__proto__ = F.prototype
 
 const s1 = new S1('lu')
 
@@ -34,19 +34,14 @@ const S2 = function() {
   F.call(this, name)
 }
 
-S2.prototype = new F();
+S2.prototype = new F(); // 和上面的 S1.prototype.__proto__ = F.prototype 写法效果一样
 
 const s2 = new S2('lu')
 
 // 寄生式继承 cloneObj equals Object.create -> 返回的直接为对象，而非上面的数组
-const cloneObj = function(o) {
-  const C = function() {};
-  C.prototype = o;
-  return new C;
-}
 
 const extendsObject = function(o) {
-  const clone = cloneObj(o);
+  const clone = Object.create(o);
   clone.sayMethod = function() {
     console.log('in sayMethod')
   }
@@ -57,7 +52,7 @@ const s3 = extendsObject(new F('lu'))
 
 // 寄生组合式继承
 const extendsObjects = function(subType, superType) {
-  const prototype = cloneObj(superType);
+  const prototype = Object.create(superType);
   prototype.constructor = subType;
   subType.prototype = prototype;
 }
