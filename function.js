@@ -10,11 +10,6 @@
 
 
 // new 实现  newObject(Person, 'cxk', 18)
-// const Person = function(name, age) {
-//   this.name = name;
-//   this.age = age
-// }
-
 function newObject() {
   const obj = {};
   const Constructor = Array.prototype.shift.call(arguments);

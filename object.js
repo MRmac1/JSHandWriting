@@ -28,10 +28,11 @@ const assgin = function(target, ...source) {
     const element = source[index];
     for (const key in element) {
       if (element.hasOwnProperty(key)) {
-        target[key] = object[key];
+        target[key] = element[key];
       }
     }
   }
+  return target;
 }
 
 // deepClone 深复制

@@ -7,7 +7,7 @@
  * */
 
 const arrayFlatToString = function(arr) {
-  return arr.toString().split(',')
+  return arr.toString().split(',').map(Number)
 }
 
 const arrayFlatRecu = function(arr) {
@@ -33,7 +33,7 @@ const arrayFlatRecu2 = function(array, result = []) {
     var value = array[i]
 
     if (Array.isArray(value)) {
-      flattenForever(value, result)
+      arrayFlatRecu2(value, result)
     } else {
       result.push(value)
     }
